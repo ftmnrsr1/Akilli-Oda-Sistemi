@@ -1,0 +1,28 @@
+#define BLYNK_PRINT Serial
+
+#define BLYNK_TEMPLATE_ID "TMPL6Vn7tp3lO"
+#define BLYNK_TEMPLATE_NAME "Akıllı Oda Projem"
+#define BLYNK_AUTH_TOKEN "bND18y-U28gG3f3uTFMDY-VIzAKA6k3n"
+
+
+#include <ESP8266WiFi.h>
+#include <BlynkSimpleEsp8266.h>
+
+char ssid[] = "SUPERONLINE_Wi-Fi_8964";
+char pass[] = "ZHFSf2DKRGRZ";
+
+BLYNK_WRITE(V1){
+  digitalWrite(D0,param.asInt());
+}
+void setup()
+{
+  // Debug console
+  Serial.begin(9600);
+  pinMode(D0,OUTPUT);
+  Blynk.begin(BLYNK_AUTH_TOKEN, ssid, pass);
+}
+
+void loop()
+{
+  Blynk.run();
+}
