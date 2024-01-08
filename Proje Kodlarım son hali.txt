@@ -1,0 +1,48 @@
+#include <DHT11.h>
+DHT11 dht11(2);
+
+#include <LiquidCrystal_I2C.h>
+#include <Wire.h> 
+
+LiquidCrystal_I2C lcd(0x27,16,2);
+
+#define BLYNK_TEMPLATE_ID "TMPL65Bh3fElM"
+#define BLYNK_TEMPLATE_NAME "Akıllı odam"
+#define BLYNK_AUTH_TOKEN "jpF1YJ6HXSyKcR7S3qGUtmBV4NbKmMWE"
+
+#include <ESP8266WiFi.h>
+#include <BlynkSimpleEsp8266.h>
+
+char ssid[] = "Fatma Nur iPhone’u";
+char pass[] = "06012004";
+
+BLYNK_WRITE(V1){
+  digitalWrite(D0,param.asInt());
+}
+void setup()
+{
+  // Debug console
+  Serial.begin(9600);
+  pinMode(D0,OUTPUT);
+  Blynk.begin(BLYNK_AUTH_TOKEN, ssid, pass);
+  int temperature = dht11.readTemperature();
+  int humidity = dht11.readHumidity();
+  lcd.begin(16,2);                      
+  lcd.init();
+  lcd.backlight();
+  lcd.setCursor(1,0);
+  lcd.print("Sicaklik :");
+  lcd.setCursor(11,0);
+  lcd.print(temperature);
+  lcd.setCursor(1,1);
+  lcd.print("Nem :");
+  lcd.setCursor(7,1);
+  lcd.print(humidity);
+  delay(2000);
+}
+
+void loop()
+{
+  
+  Blynk.run();
+}
